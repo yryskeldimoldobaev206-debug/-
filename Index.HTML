@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+        </style>
+    </head>
+    <body>
+    </body>
+</html>
+<div class="main-container">
+        <div class="video-side">
+            <video controls width="100%" src="ChristmasPlaylist.mp4" preload="auto" height="auto">
+                <source src="ChristmasPlaylist.mp4" type="video/mp4">
+            </video>
+        </div>
+
+        <div class="text-side">
+            <h1>С Новым Годом,</h1>
+            <span class="recipient">Жылдыз Смаилбековна!</span>
+            
+            <p>
+                Желаю Вам в наступающем году безграничной удачи, крепкого здоровья и профессиональных высот. Пусть каждый день приносит радость, а Ваш дом будет полон тепла и уюта!
+            </p>
+
+            <div class="timer-box">
+                <span>До заветного часа осталось:</span>
+                <div id="timer">Загрузка...</div>
+            </div>
+
+            <div class="signature">
+                С наилучшими пожеланиями,<br>
+                <strong>Ырыскелди</strong>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Реалистичный снег
+        const canvas = document.getElementById('snow');
+        const ctx = canvas.getContext('2d');
+        let w, h, particles = [];
+
+        function init() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+            particles = [];
+            for (let i = 0; i < 150; i++) {
+                particles.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    r: Math.random() * 3 + 1,
+                    d: Math.random() * 0.5 + 0.5
+                });
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, w, h);
+            ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+            ctx.beginPath();
+            for (let p of particles) {
+                ctx.moveTo(p.x, p.y);
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            }
+            ctx.fill();
+            update();
+        }
+
+        function update() {
+            for (let p of particles) {
+                p.y += p.d;
+                p.x += Math.sin(p.y / 50) * 0.5;
+                if (p.y > h) { p.y = -10; p.x = Math.random() * w; }
+            }
+        }
+
+        setInterval(draw, 30);
+        window.onresize = init;
+        init();
+
+        // Таймер
+        function updateTimer() {
+            const nextYear = new Date('January 1, 2026 00:00:00').getTime();
+            const now = new Date().getTime();
+            const diff = nextYear - now;
+
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('timer').innerHTML
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С Новым Годом, Жылдыз Смаилбековна!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Montserrat:wght@300;400;600&display=swap');
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            /* Новогодний фон: темный лес с огнями */
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.unsplash.com/photo-1543589077-47d81606c1bf?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Холст для снега */
+        #snow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .main-container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            background: rgba(15, 23, 42, 0.7); /* Глубокий синий с прозрачностью */
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            border-radius: 30px;
+            max-width: 1100px;
+            width: 95%;
+            min-height: 500px;
+            overflow: hidden;
+            box-shadow: 0 0 100px rgba(0, 0, 0, 0.8), 0 0 30px rgba(212, 175, 55, 0.2);
+        }
+
+        /* Видео блок */
+        .video-side {
+            flex: 1.2;
+            background: #000;
+            position: relative;
+        }
+
+        .video-side iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border: none;
+        }
+
+        /* Текстовый блок */
+        .text-side {
+            flex: 1;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, transparent 100%);
+        }
+
+        h1 {
+            font-family: 'Caveat', cursive;
+            font-size: 3.5rem;
+            color: #D4AF37;
+            margin: 0;
+            line-height: 1.1;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .recipient {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        p {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: #f0f0f0;
+            margin-bottom: 30px;
+        }
+
+        .timer-box {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            margin-bottom: 30px;
+        }
+
+        #timer {
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: #D4AF37;
+            margin-top: 10px;
+        }
+
+        .signature {
+            font-style: italic;
+            text-align: right;
+            font-size: 1.1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+        }
+
+        strong { color: #D4AF37; font-weight: 600; }
+
+        /* Для мобилок */
+        @media (max-width: 900px) {
+            .main-container { flex-direction: column; height: 95vh; overflow-y: auto; }
+            .video-side { min-height: 300px; }
+            h1 { font-size: 2.5rem; }
+            .text-side { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="snow"></canvas>
